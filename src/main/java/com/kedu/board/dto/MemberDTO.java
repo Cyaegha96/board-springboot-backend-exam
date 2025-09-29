@@ -13,7 +13,7 @@ public class MemberDTO {
     private String id;
     private String pw;
     private String name;
-    private long phone;
+    private String phone;
     private String email;
     private long zone_code;
     private String address1;
