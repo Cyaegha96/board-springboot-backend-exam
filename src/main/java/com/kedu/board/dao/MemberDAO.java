@@ -14,4 +14,8 @@ public class MemberDAO {
 public int searchById(MemberDTO dto){
     return mybatis.selectOne("Member.searchById",dto);
 }
+
+    public int insertMember(MemberDTO memberDTO) {
+        return mybatis.insert("Member.insertMember",memberDTO);
+    }
 }

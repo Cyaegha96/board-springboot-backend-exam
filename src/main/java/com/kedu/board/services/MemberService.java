@@ -11,7 +11,12 @@ public class MemberService {
     @Autowired
     private MemberDAO memberDAO;
 
-    public boolean addMember(String id,String pw){
+    public boolean login(String id,String pw){
        return memberDAO.searchById(MemberDTO.builder().id(id).pw(pw).build()) >0;
+    }
+
+    public boolean addMember(MemberDTO memberDTO) {
+
+        return memberDAO.insertMember(memberDTO) > 0;
     }
 }
