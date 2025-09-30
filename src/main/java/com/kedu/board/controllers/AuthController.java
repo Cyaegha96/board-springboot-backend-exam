@@ -32,12 +32,8 @@ public class AuthController {
        }else{
            resp.put("status", "fail");
            return ResponseEntity.ok(resp);
-
        }
-
-
     }
-
     @PostMapping(value="/join")
     public ResponseEntity<Map<String, String>> join(@RequestBody MemberDTO memberDTO) {
 
@@ -54,6 +50,25 @@ public class AuthController {
 
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String,String>> deleteMember(@PathVariable String id,HttpSession session) {
+    Map<String,String> resp =  new HashMap<>();
+
+    boolean deleteCheck = memberService.deleteMember(id);
+    if(deleteCheck){
+        session.invalidate();
+        resp.put("status", "success");
+        resp.put("message","Account deleted successfully");
+        return ResponseEntity.ok(resp);
+    }
+    else{
+        resp.put("status", "fail");
+        resp.put("message","Account not found");
+        return ResponseEntity.ok(resp);
+    }
+
+    }
+
     @PostMapping(value="/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
         System.out.println("로그아웃 id:"+session.getAttribute("loginId"));
@@ -61,6 +76,8 @@ public class AuthController {
 
        return ResponseEntity.ok().build();
     }
+
+
 
 
 }

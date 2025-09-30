@@ -19,4 +19,8 @@ public class MemberService {
 
         return memberDAO.insertMember(memberDTO) > 0;
     }
+
+    public boolean deleteMember(String id){
+        return memberDAO.deleteMemberById(id)>0;
+    }
 }

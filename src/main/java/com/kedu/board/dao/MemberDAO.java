@@ -18,4 +18,8 @@ public int searchById(MemberDTO dto){
     public int insertMember(MemberDTO memberDTO) {
         return mybatis.insert("Member.insertMember",memberDTO);
     }
+
+    public int deleteMemberById(String id) {
+        return mybatis.delete("Member.deleteMemberById",id);
+    }
 }
