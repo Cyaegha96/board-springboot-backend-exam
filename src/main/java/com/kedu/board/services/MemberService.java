@@ -23,4 +23,12 @@ public class MemberService {
     public boolean deleteMember(String id){
         return memberDAO.deleteMemberById(id)>0;
     }
+
+    public MemberDTO getMember(String id){
+        return memberDAO.selectMemberById(id);
+    }
+
+    public boolean updateMember(MemberDTO dto) {
+        return memberDAO.updateMemberById(dto) > 0;
+    }
 }

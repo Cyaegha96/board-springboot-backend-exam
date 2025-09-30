@@ -7,6 +7,9 @@
     <select id="searchById" parameterType="com.kedu.board.dto.MemberDTO" resultType="int">
         select count(*) from members where id= #{id} and pw= #{pw}
     </select>
+    <select id="selectMemberById" parameterType="String" resultType="com.kedu.board.dto.MemberDTO">
+        select * from members where id = #{id}
+    </select>
     <insert id="insertMember" parameterType="com.kedu.board.dto.MemberDTO">
         insert into members
             (id, pw, name, phone, email, zone_code, address1, address2, join_date)
@@ -16,4 +19,14 @@
     <delete id="deleteMemberById" parameterType="String">
         delete from members where id=#{id}
     </delete>
+    <update id="updateMemberById" parameterType="com.kedu.board.dto.MemberDTO">
+        UPDATE members
+        SET name = #{name},
+            phone = #{phone},
+            email = #{email},
+            zone_code = #{zone_code},
+            address1 = #{address1},
+            address2 = #{address2}
+        WHERE id = #{id}
+    </update>
 </mapper>

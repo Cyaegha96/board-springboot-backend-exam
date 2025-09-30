@@ -4,6 +4,7 @@ import com.kedu.board.dto.MemberDTO;
 import com.kedu.board.services.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,12 +43,12 @@ public class AuthController {
         if(joinCheck){
             resp.put("status", "success");
             resp.put("loginId", memberDTO.getId());
-            return ResponseEntity.ok(resp);
+
         }else{
             resp.put("status", "fail");
-            return ResponseEntity.ok(resp);
-        }
 
+        }
+        return ResponseEntity.ok(resp);
     }
 
     @DeleteMapping("/{id}")
@@ -59,13 +60,14 @@ public class AuthController {
         session.invalidate();
         resp.put("status", "success");
         resp.put("message","Account deleted successfully");
-        return ResponseEntity.ok(resp);
+
     }
     else{
         resp.put("status", "fail");
         resp.put("message","Account not found");
-        return ResponseEntity.ok(resp);
+
     }
+        return ResponseEntity.ok(resp);
 
     }
 
@@ -77,7 +79,40 @@ public class AuthController {
        return ResponseEntity.ok().build();
     }
 
+    @GetMapping(value="/mypage")
+    public ResponseEntity<Map<String,Object>> getMyPage(HttpSession session){
+        String id = (String) session.getAttribute("loginId");
+        Map<String,Object> resp =  new HashMap<>();
+
+        MemberDTO dto = memberService.getMember(id);
+
+        if(dto!=null){
+            resp.put("status", "success");
+            resp.put("memberInfo", dto);
+            return ResponseEntity.ok(resp);
+
+        }else{
+            resp.put("status", "fail");
+            return ResponseEntity.ok(resp);
+        }
+
+    }
+
+    @PostMapping(value="/update")
+    public ResponseEntity<Map<String,String>> updateMember(@RequestBody MemberDTO dto){
+
+        boolean updateCheck = memberService.updateMember(dto);
+
+        Map<String,String> resp =  new HashMap<>();
 
 
+        if(updateCheck){
+            resp.put("status", "success");
+
+        }else{
+            resp.put("status", "fail");
+        }
+        return ResponseEntity.ok(resp);
+    }
 
 }

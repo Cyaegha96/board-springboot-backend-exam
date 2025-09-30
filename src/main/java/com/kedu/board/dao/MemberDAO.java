@@ -22,4 +22,12 @@ public int searchById(MemberDTO dto){
     public int deleteMemberById(String id) {
         return mybatis.delete("Member.deleteMemberById",id);
     }
+
+    public MemberDTO selectMemberById(String id) {
+        return mybatis.selectOne("Member.selectMemberById",id);
+    }
+
+    public int updateMemberById(MemberDTO dto) {
+        return mybatis.update("Member.updateMemberById", dto);
+    }
 }
