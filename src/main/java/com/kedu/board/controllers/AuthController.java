@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/member")
 public class AuthController {
@@ -14,27 +17,48 @@ public class AuthController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping(value ="/login", params={"id","pw"})
-    public ResponseEntity<Boolean> login(@RequestParam String id, @RequestParam String pw, HttpSession session) {
-        System.out.println("id:"+id);
-        System.out.println("pw:"+pw);
+    @PostMapping(value ="/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody MemberDTO dto, HttpSession session) {
+        System.out.println("id:"+dto.getId());
+        System.out.println("pw:"+dto.getId());
 
-       boolean loginCheck =  memberService.login(id,pw);
-       session.setAttribute("loginId", id);
+       boolean loginCheck =  memberService.login(dto.getId(),dto.getPw());
+        Map<String, String> resp =  new HashMap<>();
+       if(loginCheck){
+           session.setAttribute("loginId", dto.getId());
+           resp.put("status", "success");
+           resp.put("loginId", dto.getId());
+           return ResponseEntity.ok(resp);
+       }else{
+           resp.put("status", "fail");
+           return ResponseEntity.ok(resp);
 
-        return ResponseEntity.ok(loginCheck);
+       }
+
+
     }
 
     @PostMapping(value="/join")
-    public ResponseEntity<Boolean> join(@RequestBody MemberDTO memberDTO) {
+    public ResponseEntity<Map<String, String>> join(@RequestBody MemberDTO memberDTO) {
 
         boolean joinCheck = memberService.addMember(memberDTO);
-        return ResponseEntity.ok(joinCheck);
+        Map<String, String> resp =  new HashMap<>();
+        if(joinCheck){
+            resp.put("status", "success");
+            resp.put("loginId", memberDTO.getId());
+            return ResponseEntity.ok(resp);
+        }else{
+            resp.put("status", "fail");
+            return ResponseEntity.ok(resp);
+        }
+
     }
 
     @PostMapping(value="/logout")
     public ResponseEntity<Void> logout(HttpSession session) {
+        System.out.println("로그아웃 id:"+session.getAttribute("loginId"));
        session.invalidate();
+
        return ResponseEntity.ok().build();
     }
 
