@@ -5,10 +5,26 @@
 
 <mapper namespace="Board">
     <select id="getList" resultType="com.kedu.board.dto.BoardDTO">
-        select id,writer,title,write_date from boards;
+        select id,writer,title,write_date from boards
     </select>
 
     <select id="getBoardById" parameterType="int" resultType="com.kedu.board.dto.BoardDTO">
         select * from boards where id=#{id}
     </select>
+
+    <insert id="write" parameterType="com.kedu.board.dto.BoardDTO">
+        <selectKey order="BEFORE" keyProperty="id" resultType="int">
+            select boards_seq.nextval from dual
+        </selectKey>
+        insert into boards values(#{id},#{writer},#{title},#{contents},default)
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from boards where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="com.kedu.board.dto.BoardDTO">
+        update boards set title=#{title},contents=#{contents} where id=#{id}
+    </update>
+
 </mapper>

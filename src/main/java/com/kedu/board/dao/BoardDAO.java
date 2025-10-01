@@ -19,4 +19,16 @@ public class BoardDAO {
     public BoardDTO getBoardById(int id){
         return mybatis.selectOne("Board.getBoardById",id);
     }
+
+    public int writeBoard(BoardDTO boardDTO){
+        return mybatis.insert("Board.write",boardDTO);
+    }
+
+    public int deleteBoard(int id){
+        return mybatis.delete("Board.delete",id);
+    }
+
+    public int updateBoard(BoardDTO boardDTO){
+        return mybatis.update("Board.update",boardDTO);
+    }
 }

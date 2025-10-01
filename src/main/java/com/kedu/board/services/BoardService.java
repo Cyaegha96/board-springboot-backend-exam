@@ -19,4 +19,21 @@ public class BoardService {
     public BoardDTO getBoardById(int id){
         return boardDAO.getBoardById(id);
     }
+
+    public int writeBoard(BoardDTO boardDTO){
+        return boardDAO.writeBoard(boardDTO);
+    }
+
+    public int deleteBoard(int id){
+        return boardDAO.deleteBoard(id);
+    }
+
+    public int updateBoard(BoardDTO boardDTO,String loginId){
+        if(boardDTO.getWriter().equals(loginId)){
+            return boardDAO.updateBoard(boardDTO);
+        }
+        else{
+            return -1;
+        }
+    }
 }
