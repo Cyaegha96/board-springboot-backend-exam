@@ -15,4 +15,8 @@ public class BoardDAO {
     public List<BoardDTO> selectAll(){
         return mybatis.selectList("Board.getList");
     }
+
+    public BoardDTO getBoardById(int id){
+        return mybatis.selectOne("Board.getBoardById",id);
+    }
 }

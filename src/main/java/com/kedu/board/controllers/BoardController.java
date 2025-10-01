@@ -25,5 +25,10 @@ public class BoardController {
        return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/detail")
+    public ResponseEntity<BoardDTO> getBoardById(int id){
+        BoardDTO dto = bServ.getBoardById(id);
 
+        return ResponseEntity.ok(dto);
+    }
 }

@@ -15,4 +15,8 @@ public class BoardService {
     public List<BoardDTO> getList(){
        return boardDAO.selectAll();
     }
+
+    public BoardDTO getBoardById(int id){
+        return boardDAO.getBoardById(id);
+    }
 }

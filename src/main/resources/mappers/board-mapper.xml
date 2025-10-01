@@ -5,6 +5,10 @@
 
 <mapper namespace="Board">
     <select id="getList" resultType="com.kedu.board.dto.BoardDTO">
-        select * from boards
+        select id,writer,title,write_date from boards;
+    </select>
+
+    <select id="getBoardById" parameterType="int" resultType="com.kedu.board.dto.BoardDTO">
+        select * from boards where id=#{id}
     </select>
 </mapper>
