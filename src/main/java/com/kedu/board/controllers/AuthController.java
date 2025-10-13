@@ -1,6 +1,7 @@
 package com.kedu.board.controllers;
 
 import com.kedu.board.dto.MemberDTO;
+import com.kedu.board.security.JwtUtil;
 import com.kedu.board.services.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,14 @@ public class AuthController {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private JwtUtil jwt;
+
     @PostMapping(value ="/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody MemberDTO dto, HttpSession session) {
+        String token = jwt.createToken(dto.getId());
         System.out.println("id:"+dto.getId());
-        System.out.println("pw:"+dto.getId());
+        System.out.println("pw:"+dto.getPw());
 
        boolean loginCheck =  memberService.login(dto.getId(),dto.getPw());
         Map<String, String> resp =  new HashMap<>();
@@ -29,6 +34,7 @@ public class AuthController {
            session.setAttribute("loginId", dto.getId());
            resp.put("status", "success");
            resp.put("loginId", dto.getId());
+           resp.put("token", token);
            return ResponseEntity.ok(resp);
        }else{
            resp.put("status", "fail");
